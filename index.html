@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#14b8a6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stretch">
+<meta name="description" content="A self-running guided stretching routine.">
+<title>Stretch</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- SETUP SCREEN -->
+  <section id="screen-setup" class="screen active">
+    <header class="app-header">
+      <h1>Stretch</h1>
+      <p class="subtitle">A guided full-body stretching routine</p>
+    </header>
+
+    <div class="setup-card">
+      <div class="setting-row">
+        <label for="stretch-duration">Stretch duration</label>
+        <div class="stepper">
+          <button type="button" class="stepper-btn" data-adjust="stretch" data-delta="-5" aria-label="Decrease stretch duration">&minus;</button>
+          <span id="stretch-duration-value" class="stepper-value">30s</span>
+          <button type="button" class="stepper-btn" data-adjust="stretch" data-delta="5" aria-label="Increase stretch duration">&plus;</button>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label for="transition-duration">Transition time</label>
+        <div class="stepper">
+          <button type="button" class="stepper-btn" data-adjust="transition" data-delta="-5" aria-label="Decrease transition duration">&minus;</button>
+          <span id="transition-duration-value" class="stepper-value">10s</span>
+          <button type="button" class="stepper-btn" data-adjust="transition" data-delta="5" aria-label="Increase transition duration">&plus;</button>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label for="sound-toggle">Sound cues</label>
+        <label class="switch">
+          <input type="checkbox" id="sound-toggle" checked>
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="routine-preview">
+      <h2>Today's routine <span id="routine-total-time"></span></h2>
+      <ol id="routine-list" class="routine-list"></ol>
+    </div>
+
+    <button id="start-btn" class="primary-btn">Start Routine</button>
+  </section>
+
+  <!-- ROUTINE (PLAYER) SCREEN -->
+  <section id="screen-routine" class="screen">
+    <div class="player-top">
+      <button id="exit-btn" class="icon-btn" aria-label="Exit routine">&times;</button>
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <span id="step-counter" class="step-counter"></span>
+    </div>
+
+    <div id="phase-banner" class="phase-banner"></div>
+
+    <div class="stage">
+      <div id="anim-host" class="anim-host"></div>
+      <div class="timer-wrap">
+        <svg class="timer-ring" viewBox="0 0 120 120">
+          <circle class="timer-ring-bg" cx="60" cy="60" r="54"></circle>
+          <circle id="timer-ring-fg" class="timer-ring-fg" cx="60" cy="60" r="54"></circle>
+        </svg>
+        <div id="timer-number" class="timer-number">30</div>
+      </div>
+    </div>
+
+    <div class="stretch-info">
+      <h2 id="stretch-name">Stretch name</h2>
+      <p id="stretch-instructions">Instructions</p>
+      <p id="next-up" class="next-up"></p>
+    </div>
+
+    <div class="controls">
+      <button id="prev-btn" class="control-btn" aria-label="Previous stretch">&#9664;&#9664;</button>
+      <button id="pause-btn" class="control-btn control-btn-main" aria-label="Pause">&#10074;&#10074;</button>
+      <button id="skip-btn" class="control-btn" aria-label="Next stretch">&#9654;&#9654;</button>
+    </div>
+  </section>
+
+  <!-- DONE SCREEN -->
+  <section id="screen-done" class="screen">
+    <div class="done-content">
+      <div class="done-check">&#10003;</div>
+      <h1>Nice work!</h1>
+      <p>You completed today's stretching routine.</p>
+      <button id="restart-btn" class="primary-btn">Do it again</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
