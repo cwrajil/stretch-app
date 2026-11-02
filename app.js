@@ -3,101 +3,114 @@
 //
 // Source: YouTube video "8 Minute Stretching Routine For People Who AREN'T
 // Flexible!" (Tone and Tighten, Dr. Jared Beckstrand), id FI51zRzgIe4.
-// The exact on-screen order/hold-times could not be independently confirmed
-// (no accessible transcript/description) — this list was reconstructed from
-// third-party chapter/summary listings of that video and should be treated
-// as a best-effort reconstruction. See README.md for details and correct it
-// in BASE_ROUTINE below if it doesn't match what you see in the video.
+// This order was confirmed directly from stills captured off the video by
+// the user (see images/stretches/). Exact hold times per stretch in the
+// original video are still a best guess — adjust durations in the setup
+// screen, or the text below, if they don't match.
 // ---------------------------------------------------------------------------
 
-const BASE_ROUTINE = [
+const ROUTINE = [
   {
-    id: "lumbar-rotation",
-    name: "Lumbar Rotation",
-    instructions: "Lie on your back, knees bent, feet flat. Gently rock both knees side to side.",
-    anim: "anim-lumbar",
-    sides: false,
+    id: "lumbar-rotation-right",
+    label: "Lumbar Rotation — Right",
+    instructions: "Lying on your back, gently pull your right knee across your body toward the floor, keeping your shoulders flat.",
+    image: "images/stretches/lumbar-rotation-right.png",
+    crop: "lying",
   },
   {
-    id: "hamstring",
-    name: "Supine Hamstring Stretch",
-    instructions: "Lying on your back, raise one leg toward the ceiling, keeping the knee straight.",
-    anim: "anim-hamstring",
-    sides: true,
+    id: "lumbar-rotation-left",
+    label: "Lumbar Rotation — Left",
+    instructions: "Lying on your back, gently pull your left knee across your body toward the floor, keeping your shoulders flat.",
+    image: "images/stretches/lumbar-rotation-left.png",
+    crop: "lying",
   },
   {
-    id: "piriformis",
-    name: "Piriformis Stretch",
-    instructions: "Lying on your back, cross one ankle over the opposite knee and gently pull the knee toward your chest.",
-    anim: "anim-piriformis",
-    sides: true,
+    id: "supine-hamstring-right",
+    label: "Supine Hamstring — Right",
+    instructions: "Lying on your back, raise your right leg toward the ceiling, holding behind the thigh or calf, knee straight.",
+    image: "images/stretches/supine-hamstring-right.png",
+    crop: "lying",
   },
   {
-    id: "hip-flexor",
-    name: "Hip Flexor & Kneeling Hamstring",
-    instructions: "Half-kneeling lunge. Tuck your tailbone and shift weight forward to feel the stretch in front of the hip.",
-    anim: "anim-hipflexor",
-    sides: true,
+    id: "supine-hamstring-left",
+    label: "Supine Hamstring — Left",
+    instructions: "Lying on your back, raise your left leg toward the ceiling, holding behind the thigh or calf, knee straight.",
+    image: "images/stretches/supine-hamstring-left.png",
+    crop: "lying",
   },
   {
-    id: "seated-rotation",
-    name: "Seated Spinal Rotation",
-    instructions: "Sit tall and gently rotate your torso, looking over your shoulder.",
-    anim: "anim-rotation",
-    sides: false,
+    id: "piriformis-right",
+    label: "Piriformis — Right",
+    instructions: "Lying on your back, cross your right ankle over your left knee and gently pull both legs toward your chest.",
+    image: "images/stretches/piriformis-right.png",
+    crop: "lying",
   },
   {
-    id: "childs-pose",
-    name: "Child's Pose",
-    instructions: "Kneel and fold forward, reaching your arms out in front and relaxing your back.",
-    anim: "anim-childpose",
-    sides: false,
+    id: "piriformis-left",
+    label: "Piriformis — Left",
+    instructions: "Lying on your back, cross your left ankle over your right knee and gently pull both legs toward your chest.",
+    image: "images/stretches/piriformis-left.png",
+    crop: "lying",
   },
   {
-    id: "upper-back-extension",
-    name: "Upper Back Extension",
-    instructions: "Seated or kneeling, clasp your hands behind your head and gently arch your upper back.",
-    anim: "anim-upperback",
-    sides: false,
+    id: "kneeling-hip-flexor-right",
+    label: "Tall Kneeling Hip Flexor — Right",
+    instructions: "Tall kneeling lunge, right leg forward. Tuck your tailbone and shift your weight forward to stretch the front of your back hip.",
+    image: "images/stretches/kneeling-hip-flexor-right.png",
+    crop: "kneeling",
   },
   {
-    id: "neck-stretch",
-    name: "Gentle Neck Stretch",
-    instructions: "Seated tall, gently tilt your ear toward your shoulder.",
-    anim: "anim-neck",
-    sides: true,
+    id: "kneeling-hamstring-left",
+    label: "Kneeling Hamstring — Left",
+    instructions: "From the kneeling lunge, straighten your left leg out in front with your heel down, and hinge forward at the hips.",
+    image: "images/stretches/kneeling-hamstring-left.png",
+    crop: "kneeling",
+  },
+  {
+    id: "kneeling-hip-flexor-left",
+    label: "Tall Kneeling Hip Flexor — Left",
+    instructions: "Tall kneeling lunge, left leg forward. Tuck your tailbone and shift your weight forward to stretch the front of your back hip.",
+    image: "images/stretches/kneeling-hip-flexor-left.png",
+    crop: "kneeling",
+  },
+  {
+    id: "kneeling-hamstring-right",
+    label: "Kneeling Hamstring — Right",
+    instructions: "From the kneeling lunge, straighten your right leg out in front with your heel down, and hinge forward at the hips.",
+    image: "images/stretches/kneeling-hamstring-right.png",
+    crop: "kneeling",
   },
 ];
 
-function buildRoutine() {
-  const steps = [];
-  for (const move of BASE_ROUTINE) {
-    if (!move.sides) {
-      steps.push({ ...move, label: move.name });
-    } else {
-      steps.push({ ...move, label: move.name + " — Right Side", mirror: false });
-      steps.push({ ...move, label: move.name + " — Left Side", mirror: true });
-    }
-  }
-  return steps;
-}
-
-const ROUTINE = buildRoutine();
-
 // ---------------------------------------------------------------------------
-// Animation markup (simple stick-figure illustrations, CSS-animated)
+// Pencil-sketch illustration markup
+//
+// Each stretch is illustrated with the real reference still, run through a
+// classic photo-to-pencil-sketch filter (grayscale base + inverted/blurred
+// copy blended with color-dodge) and faded out at the edges with a radial
+// mask so it reads as a sketch rather than a photo with a gym behind it.
+// `crop` trims the video UI chrome (captions/progress bar) baked into the
+// still — "lying" stills have it along the bottom, "kneeling" stills have a
+// caption banner across the top as well.
 // ---------------------------------------------------------------------------
 
-const ANIM_SVG = {
-  "anim-lumbar": `<svg viewBox="0 0 120 120"><circle class="figure-head" cx="20" cy="55" r="8"/><path class="figure-part" d="M28,55 L65,55"/><path class="figure-part" d="M55,52 L72,38"/><g class="anim-group"><path class="figure-part" d="M65,55 L82,38 L98,52"/></g></svg>`,
-  "anim-hamstring": `<svg viewBox="0 0 120 120"><circle class="figure-head" cx="20" cy="90" r="8"/><path class="figure-part" d="M28,90 L70,90"/><path class="figure-part" d="M70,90 L96,90"/><path class="figure-part" d="M40,86 L55,72"/><g class="anim-group"><path class="figure-part" d="M70,90 L70,38"/></g></svg>`,
-  "anim-piriformis": `<svg viewBox="0 0 120 120"><circle class="figure-head" cx="20" cy="90" r="8"/><path class="figure-part" d="M28,90 L55,90"/><path class="figure-part" d="M55,90 L92,90"/><g class="anim-group"><path class="figure-part" d="M55,90 L45,62 L28,55"/></g></svg>`,
-  "anim-hipflexor": `<svg viewBox="0 0 120 120"><circle class="figure-head" cx="60" cy="25" r="8"/><path class="figure-part" d="M60,33 L60,65"/><path class="figure-part" d="M60,42 L40,56"/><path class="figure-part" d="M60,65 L78,82 L78,104"/><g class="anim-group"><path class="figure-part" d="M60,65 L48,86 L48,106"/></g></svg>`,
-  "anim-rotation": `<svg viewBox="0 0 120 120"><path class="figure-part" d="M44,78 L60,78 L76,78"/><g class="anim-group"><circle class="figure-head" cx="60" cy="32" r="8"/><path class="figure-part" d="M60,40 L60,68"/><path class="figure-part" d="M60,48 L38,40"/><path class="figure-part" d="M60,48 L82,62"/></g></svg>`,
-  "anim-childpose": `<svg viewBox="0 0 120 120"><path class="figure-part" d="M78,48 L96,78 L96,98"/><g class="anim-group"><circle class="figure-head" cx="35" cy="75" r="8"/><path class="figure-part" d="M43,75 L78,48"/><path class="figure-part" d="M58,64 L88,42"/></g></svg>`,
-  "anim-upperback": `<svg viewBox="0 0 120 120"><path class="figure-part" d="M46,98 L60,98 L74,98"/><g class="anim-group"><path class="figure-part" d="M60,92 L60,56"/><circle class="figure-head" cx="60" cy="46" r="8"/><path class="figure-part" d="M54,56 L44,40"/><path class="figure-part" d="M66,56 L76,40"/></g></svg>`,
-  "anim-neck": `<svg viewBox="0 0 120 120"><path class="figure-part" d="M60,96 L60,56"/><path class="figure-part" d="M60,66 L40,82"/><path class="figure-part" d="M60,66 L80,82"/><g class="anim-group"><circle class="figure-head" cx="55" cy="40" r="9"/></g></svg>`,
+const CROP_PRESETS = {
+  lying: { top: "0%", right: "0%", bottom: "13%", left: "0%", zoom: "1.12", focal: "50% 42%" },
+  kneeling: { top: "11%", right: "6%", bottom: "7%", left: "2%", zoom: "1.18", focal: "48% 45%" },
 };
+
+function sketchMarkup(step) {
+  const c = CROP_PRESETS[step.crop] || CROP_PRESETS.lying;
+  const style =
+    `--crop-top:${c.top};--crop-right:${c.right};--crop-bottom:${c.bottom};--crop-left:${c.left};` +
+    `--zoom:${c.zoom};--focal:${c.focal};`;
+  return `<div class="sketch-frame" style="${style}">
+    <div class="sketch-crop">
+      <img class="sketch-base" src="${step.image}" alt="">
+      <img class="sketch-lines" src="${step.image}" alt="">
+    </div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------------------
 // Audio cues (Web Audio API, no external files)
@@ -377,12 +390,7 @@ function renderPhase() {
   timerRingFg.style.strokeDasharray = String(RING_CIRCUMFERENCE);
   timerRingFg.style.strokeDashoffset = "0";
 
-  animHost.innerHTML = ANIM_SVG[step.anim] || "";
-  const svg = animHost.querySelector("svg");
-  if (svg) {
-    svg.classList.add(step.anim);
-    if (step.mirror) svg.style.transform = "scaleX(-1)";
-  }
+  animHost.innerHTML = sketchMarkup(step);
 
   if (phase === "transition") {
     phaseBanner.textContent = "Get Ready";

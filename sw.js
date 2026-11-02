@@ -1,4 +1,4 @@
-const CACHE_NAME = "stretch-app-v1";
+const CACHE_NAME = "stretch-app-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,16 @@ const ASSETS = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/apple-touch-icon.png",
+  "./images/stretches/lumbar-rotation-right.png",
+  "./images/stretches/lumbar-rotation-left.png",
+  "./images/stretches/supine-hamstring-right.png",
+  "./images/stretches/supine-hamstring-left.png",
+  "./images/stretches/piriformis-right.png",
+  "./images/stretches/piriformis-left.png",
+  "./images/stretches/kneeling-hip-flexor-right.png",
+  "./images/stretches/kneeling-hamstring-left.png",
+  "./images/stretches/kneeling-hip-flexor-left.png",
+  "./images/stretches/kneeling-hamstring-right.png",
 ];
 
 self.addEventListener("install", (event) => {

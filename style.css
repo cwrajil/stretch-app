@@ -7,6 +7,7 @@
   --text: #f1f5f9;
   --text-dim: #94a3b8;
   --danger: #fb7185;
+  --paper: #f3ede0;
   --radius: 18px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -173,10 +174,9 @@ html, body {
   margin: 8px 0;
 }
 .anim-host {
-  width: 220px; height: 220px;
+  width: 228px; height: 228px;
   display: flex; align-items: center; justify-content: center;
 }
-.anim-host svg { width: 100%; height: 100%; overflow: visible; }
 
 .timer-wrap {
   position: absolute;
@@ -240,54 +240,46 @@ html, body {
 .done-content h1 { margin: 0 0 8px; }
 .done-content p { color: var(--text-dim); margin: 0 0 24px; }
 
-/* ---- Stick figure base ---- */
-.figure-part { stroke: var(--accent); stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.figure-head { fill: var(--accent); }
-
-@keyframes lumbarRock {
-  0%, 100% { transform: rotate(-14deg); }
-  50% { transform: rotate(14deg); }
+/* ---- Pencil-sketch illustration (derived from real reference stills) ---- */
+.sketch-frame {
+  position: relative;
+  width: 228px;
+  height: 228px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper, #f3ede0);
+  -webkit-mask-image: radial-gradient(ellipse 68% 68% at 50% 48%, black 50%, transparent 92%);
+          mask-image: radial-gradient(ellipse 68% 68% at 50% 48%, black 50%, transparent 92%);
 }
-@keyframes legRaise {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-38deg); }
+.sketch-frame .sketch-crop {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(
+    var(--crop-top, 0%) var(--crop-right, 0%) var(--crop-bottom, 0%) var(--crop-left, 0%)
+  );
 }
-@keyframes kneeToChest {
-  0%, 100% { transform: translate(0,0) scale(1); }
-  50% { transform: translate(6px,-10px) scale(0.92); }
+.sketch-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focal, center);
+  transform: scale(var(--zoom, 1.08));
 }
-@keyframes lungePulse {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(8px); }
+.sketch-frame .sketch-base { filter: grayscale(1) brightness(1.08) contrast(1.15); }
+.sketch-frame .sketch-lines {
+  filter: grayscale(1) invert(1) blur(5px) brightness(0.95);
+  mix-blend-mode: color-dodge;
+  animation: sketchBreathe 3.2s ease-in-out infinite;
 }
-@keyframes torsoTwist {
-  0%, 100% { transform: rotate(-10deg); }
-  50% { transform: rotate(10deg); }
+@keyframes sketchBreathe {
+  0%, 100% { filter: grayscale(1) invert(1) blur(5px) brightness(0.95); }
+  50% { filter: grayscale(1) invert(1) blur(6.5px) brightness(1); }
 }
-@keyframes childBreathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(0.95); }
-}
-@keyframes chestArch {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-6px) rotate(-6deg); }
-}
-@keyframes neckTilt {
-  0%, 100% { transform: rotate(-16deg); }
-  50% { transform: rotate(-22deg); }
-}
-
-.anim-group { animation-duration: 2.6s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
-.anim-lumbar .anim-group { transform-origin: 65px 55px; animation-name: lumbarRock; }
-.anim-hamstring .anim-group { transform-origin: 70px 90px; animation-name: legRaise; }
-.anim-piriformis .anim-group { transform-origin: 55px 90px; animation-name: kneeToChest; }
-.anim-hipflexor .anim-group { transform-origin: 60px 65px; animation-name: lungePulse; }
-.anim-rotation .anim-group { transform-origin: 60px 68px; animation-name: torsoTwist; }
-.anim-childpose .anim-group { transform-origin: 55px 60px; animation-name: childBreathe; }
-.anim-upperback .anim-group { transform-origin: 60px 90px; animation-name: chestArch; }
-.anim-neck .anim-group { transform-origin: 60px 56px; animation-name: neckTilt; }
 
 @media (max-width: 360px) {
   .timer-wrap { width: 240px; height: 240px; }
   .anim-host { width: 190px; height: 190px; }
+  .sketch-frame { width: 190px; height: 190px; }
 }
