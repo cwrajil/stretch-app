@@ -87,23 +87,23 @@ const ROUTINE = [
 //
 // Each stretch is illustrated with the real reference still, run through a
 // classic photo-to-pencil-sketch filter (grayscale base + inverted/blurred
-// copy blended with color-dodge) and faded out at the edges with a radial
-// mask so it reads as a sketch rather than a photo with a gym behind it.
-// `crop` trims the video UI chrome (captions/progress bar) baked into the
-// still — "lying" stills have it along the bottom, "kneeling" stills have a
-// caption banner across the top as well.
+// copy blended with color-dodge). `crop` trims the video UI chrome
+// (captions/progress bar) baked into the still — "lying" stills have it
+// along the bottom, "kneeling" stills have a caption banner across the top
+// as well. The frame is a wide rectangle (not a circle) so the whole body
+// stays in view rather than being cropped to fit a circular mask.
 // ---------------------------------------------------------------------------
 
 const CROP_PRESETS = {
-  lying: { top: "0%", right: "0%", bottom: "13%", left: "0%", zoom: "1.12", focal: "50% 42%" },
-  kneeling: { top: "11%", right: "6%", bottom: "7%", left: "2%", zoom: "1.18", focal: "48% 45%" },
+  lying: { top: "0%", right: "0%", bottom: "12%", left: "0%", zoom: "1.0", focal: "50% 42%", aspect: "3 / 2" },
+  kneeling: { top: "17%", right: "3%", bottom: "11%", left: "0%", zoom: "1.0", focal: "50% 48%", aspect: "4 / 5" },
 };
 
 function sketchMarkup(step) {
   const c = CROP_PRESETS[step.crop] || CROP_PRESETS.lying;
   const style =
     `--crop-top:${c.top};--crop-right:${c.right};--crop-bottom:${c.bottom};--crop-left:${c.left};` +
-    `--zoom:${c.zoom};--focal:${c.focal};`;
+    `--zoom:${c.zoom};--focal:${c.focal};--aspect:${c.aspect};`;
   return `<div class="sketch-frame" style="${style}">
     <div class="sketch-crop">
       <img class="sketch-base" src="${step.image}" alt="">
@@ -210,7 +210,7 @@ const stepCounterEl = document.getElementById("step-counter");
 const phaseBanner = document.getElementById("phase-banner");
 const animHost = document.getElementById("anim-host");
 const timerNumber = document.getElementById("timer-number");
-const timerRingFg = document.getElementById("timer-ring-fg");
+const timerBarFill = document.getElementById("timer-bar-fill");
 const stretchNameEl = document.getElementById("stretch-name");
 const stretchInstructionsEl = document.getElementById("stretch-instructions");
 const nextUpEl = document.getElementById("next-up");
@@ -218,8 +218,6 @@ const prevBtn = document.getElementById("prev-btn");
 const pauseBtn = document.getElementById("pause-btn");
 const skipBtn = document.getElementById("skip-btn");
 const restartBtn = document.getElementById("restart-btn");
-
-const RING_CIRCUMFERENCE = 2 * Math.PI * 54;
 
 function showScreen(screen) {
   [screenSetup, screenRoutine, screenDone].forEach((s) => s.classList.remove("active"));
@@ -360,7 +358,7 @@ function updateTimerDisplay(remainingMs) {
   const secondsLeft = Math.ceil(remainingMs / 1000);
   timerNumber.textContent = secondsLeft;
   const frac = Math.max(0, remainingMs / phaseDurationMs);
-  timerRingFg.style.strokeDashoffset = String(RING_CIRCUMFERENCE * (1 - frac));
+  timerBarFill.style.width = `${frac * 100}%`;
 }
 
 function advancePhase() {
@@ -387,8 +385,7 @@ function renderPhase() {
   const progressed = idx + (phase === "stretch" ? 1 : 0.5);
   progressFill.style.width = `${(progressed / total) * 100}%`;
 
-  timerRingFg.style.strokeDasharray = String(RING_CIRCUMFERENCE);
-  timerRingFg.style.strokeDashoffset = "0";
+  timerBarFill.style.width = "100%";
 
   animHost.innerHTML = sketchMarkup(step);
 
